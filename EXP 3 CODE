@@ -1,0 +1,70 @@
+clc;
+clear;
+close all;
+
+%% Common Data
+d = 0.1:0.1:5;
+f = [900 3500 28000];
+
+PL1 = 32.44 + 20*log10(f(1)) + 20*log10(d);
+PL2 = 32.44 + 20*log10(f(2)) + 20*log10(d);
+PL3 = 32.44 + 20*log10(f(3)) + 20*log10(d);
+
+figure;
+
+%% Objective 1 - Graph 1
+subplot(3,2,1)
+plot(d,PL1,'b','LineWidth',2)
+hold on
+plot(d,PL2,'r','LineWidth',2)
+plot(d,PL3,'k','LineWidth',2)
+grid on
+title('Propagation Loss vs Distance')
+xlabel('Distance (km)')
+ylabel('Loss (dB)')
+
+%% Objective 1 - Graph 2
+subplot(3,2,2)
+Freq=[900 3500 28000];
+Loss=[PL1(10) PL2(10) PL3(10)];
+plot(Freq,Loss,'-o','LineWidth',2)
+grid on
+title('Propagation Loss vs Frequency')
+xlabel('Frequency (MHz)')
+ylabel('Loss (dB)')
+
+%% Objective 2
+d2=2;
+PL=32.44+20*log10(f)+20*log10(d2);
+
+subplot(3,2,3)
+plot(f,PL,'-o','LineWidth',2)
+grid on
+title('Propagation Loss vs Operating Frequency')
+xlabel('Frequency (MHz)')
+ylabel('Propagation Loss (dB)')
+
+subplot(3,2,4)
+bar(PL)
+grid on
+title('Comparison of Propagation Loss')
+xlabel('Band')
+ylabel('Loss (dB)')
+xticklabels({'Sub-1GHz','Mid-band','mmWave'})
+
+%% Objective 3
+
+subplot(3,2,5)
+plot(f,PL,'-o','LineWidth',2)
+grid on
+title('Propagation Loss vs Operating Frequency')
+xlabel('Frequency (MHz)')
+ylabel('Propagation Loss (dB)')
+
+subplot(3,2,6)
+plot(1:3,PL,'-s','LineWidth',2)
+grid on
+title('Band-wise Propagation Loss Comparison')
+xlabel('Band Index')
+ylabel('Propagation Loss (dB)')
+xticklabels({'Sub-1GHz','Mid-band','mmWave'})
