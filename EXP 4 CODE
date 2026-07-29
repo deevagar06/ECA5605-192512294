@@ -1,0 +1,93 @@
+clc;
+clear;
+close all;
+
+%% ==========================
+% Experiment 4 - OFDMA Resource Block Allocation
+%% ==========================
+
+% System Parameters
+bandwidth = 10e6;      % 10 MHz
+rb_size = 180e3;       % 180 kHz per Resource Block
+
+% Total Resource Blocks
+total_RB = floor(bandwidth/rb_size);
+
+% Users
+users = 1:5;
+
+% Resource Block Allocation
+alloc_RB = [12 10 9 8 11];
+
+% Resource Block Utilization
+utilization = (alloc_RB/total_RB)*100;
+
+% Modulation Efficiency
+mod_eff = [2 4 6 4 2];
+
+% Throughput (Mbps)
+throughput = (alloc_RB .* rb_size .* mod_eff)/1e6;
+
+%% Display Results
+disp('Total Resource Blocks:')
+disp(total_RB)
+
+disp('Allocated Resource Blocks:')
+disp(alloc_RB')
+
+disp('Utilization (%)')
+disp(utilization')
+
+disp('Throughput (Mbps)')
+disp(throughput')
+
+%% Graphs
+figure('Name','Experiment 4 - OFDMA Resource Block Allocation')
+
+% Objective 1 - RB Allocation
+subplot(3,2,1)
+stem(users,alloc_RB,'filled','LineWidth',2)
+title('RB Allocation per User')
+xlabel('User Index')
+ylabel('Resource Blocks')
+grid on
+
+% Objective 1 - RB Utilization
+subplot(3,2,2)
+plot(users,utilization,'-o','LineWidth',2)
+title('RB Utilization (%)')
+xlabel('User Index')
+ylabel('Utilization (%)')
+grid on
+
+% Objective 2 - Allocation
+subplot(3,2,3)
+plot(users,alloc_RB,'-o','LineWidth',2)
+title('OFDMA Resource Block Allocation')
+xlabel('User Index')
+ylabel('RB')
+grid on
+
+% Objective 2 - Utilization
+subplot(3,2,4)
+plot(users,utilization,'-s','LineWidth',2)
+title('Resource Block Utilization')
+xlabel('User Index')
+ylabel('Utilization (%)')
+grid on
+
+% Objective 3 - Throughput
+subplot(3,2,5)
+plot(users,throughput,'-o','LineWidth',2)
+title('User Throughput')
+xlabel('User Index')
+ylabel('Throughput (Mbps)')
+grid on
+
+% Objective 3 - RB vs Throughput
+subplot(3,2,6)
+plot(alloc_RB,throughput,'-s','LineWidth',2)
+title('RB vs Throughput')
+xlabel('Allocated Resource Blocks')
+ylabel('Throughput (Mbps)')
+grid on
