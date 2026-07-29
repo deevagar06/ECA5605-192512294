@@ -1,0 +1,97 @@
+clc;
+clear;
+close all;
+
+%% ==========================
+% Experiment 5
+% MIMO System Simulation with BER Analysis
+%% ==========================
+
+% SNR range
+SNR_dB = 0:2:20;
+SNR = 10.^(SNR_dB/10);
+
+% MIMO Parameters
+Nt = 2;
+Nr = 2;
+
+BER = zeros(1,length(SNR));
+Reliability = zeros(1,length(SNR));
+
+%% Objective 1 & 2
+for i = 1:length(SNR)
+
+    bits = randi([0 1],10000,1);
+    symbols = 2*bits - 1;      % BPSK
+
+    H = (randn(Nr,Nt)+1j*randn(Nr,Nt))/sqrt(2);
+    noise = (randn(Nr,10000)+1j*randn(Nr,10000))/sqrt(2*SNR(i));
+
+    tx = H(1,1)*symbols' + noise(1,:);
+    rx = real(tx)>0;
+
+    BER(i)=sum(rx'~=bits)/length(bits);
+
+    Reliability(i)=1-exp(-SNR(i)/10);
+
+end
+
+%% Objective 3
+Capacity = Nt*log2(1+SNR);
+
+%% Display Results
+disp('SNR(dB)   BER     Reliability     Capacity')
+disp([SNR_dB' BER' Reliability' Capacity'])
+
+%% Plot Graphs
+
+figure
+
+% Objective 1 - BER
+subplot(3,2,1)
+semilogy(SNR_dB,BER,'-o','LineWidth',2)
+title('BER vs SNR')
+xlabel('SNR (dB)')
+ylabel('BER')
+grid on
+
+% Objective 1 - Reliability
+subplot(3,2,2)
+plot(SNR_dB,1-BER,'-s','LineWidth',2)
+title('Reliability using BER')
+xlabel('SNR (dB)')
+ylabel('Reliability')
+grid on
+
+% Objective 2 - Reliability
+subplot(3,2,3)
+plot(SNR_dB,Reliability,'-o','LineWidth',2)
+title('MIMO Reliability')
+xlabel('SNR (dB)')
+ylabel('Reliability')
+grid on
+
+% Objective 2 - Noise Power
+subplot(3,2,4)
+NoisePower = 1./SNR;
+plot(SNR_dB,NoisePower,'-s','LineWidth',2)
+title('Noise Power vs SNR')
+xlabel('SNR (dB)')
+ylabel('Noise Power')
+grid on
+
+% Objective 3 - Capacity
+subplot(3,2,5)
+plot(SNR_dB,Capacity,'-o','LineWidth',2)
+title('Channel Capacity vs SNR')
+xlabel('SNR (dB)')
+ylabel('Capacity (bps/Hz)')
+grid on
+
+% Objective 3 - BER vs Capacity
+subplot(3,2,6)
+plot(Capacity,BER,'-s','LineWidth',2)
+title('BER vs Channel Capacity')
+xlabel('Capacity (bps/Hz)')
+ylabel('BER')
+grid on
