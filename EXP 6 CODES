@@ -1,0 +1,87 @@
+clc;
+clear;
+close all;
+
+%% ==========================
+% Experiment 6
+% 5G NR Frame Structure Analysis
+%% ==========================
+
+% Numerology Index
+mu = 0:4;
+
+% Subcarrier Spacing (kHz)
+SCS = [15 30 60 120 240];
+
+% Slot Duration (ms)
+SlotDuration = 1./(2.^mu);
+
+% OFDM Symbols (Normal CP)
+OFDM = 14*ones(size(mu));
+
+%% Display Results
+
+disp('5G NR Frame Structure')
+disp(table(mu',SCS',SlotDuration',OFDM',...
+'VariableNames',{'Numerology','SCS_kHz','SlotDuration_ms','OFDM_Symbols'}))
+
+%% ==========================
+% Figure
+%% ==========================
+
+figure('Name','Experiment 6 - 5G NR Frame Structure')
+
+%% Objective 1
+subplot(3,2,1)
+plot(mu,SCS,'-o','LineWidth',2)
+grid on
+title('Subcarrier Spacing vs Numerology')
+xlabel('Numerology (\mu)')
+ylabel('Subcarrier Spacing (kHz)')
+
+subplot(3,2,2)
+bar(SCS)
+grid on
+xticklabels({'15','30','60','120','240'})
+title('5G NR Subcarrier Spacing')
+xlabel('Numerology')
+ylabel('SCS (kHz)')
+
+%% Objective 2
+subplot(3,2,3)
+plot(mu,SlotDuration,'-s','LineWidth',2)
+grid on
+title('Slot Duration vs Numerology')
+xlabel('Numerology (\mu)')
+ylabel('Slot Duration (ms)')
+
+subplot(3,2,4)
+bar(SlotDuration)
+grid on
+xticklabels({'15','30','60','120','240'})
+title('Comparison of Slot Duration')
+xlabel('Subcarrier Spacing')
+ylabel('Slot Duration (ms)')
+
+%% Objective 3
+subplot(3,2,5)
+stem(mu,OFDM,'filled','LineWidth',2)
+grid on
+title('OFDM Symbols per Slot')
+xlabel('Numerology (\mu)')
+ylabel('Number of OFDM Symbols')
+
+subplot(3,2,6)
+plot(mu,OFDM,'-o','LineWidth',2)
+grid on
+title('OFDM Symbol Comparison')
+xlabel('Numerology (\mu)')
+ylabel('OFDM Symbols')
+
+%% Conclusion
+
+disp(' ')
+disp('Result:')
+disp('- Subcarrier spacing increases with numerology.')
+disp('- Slot duration decreases as subcarrier spacing increases.')
+disp('- Normal cyclic prefix always contains 14 OFDM symbols.')
