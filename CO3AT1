@@ -1,0 +1,187 @@
+clc;
+clear;
+close all;
+
+% Low-Latency Edge-Assisted Smart City Architecture
+
+numDevices = 100;        % Number of IoT devices
+area = 500;              % Smart city area (m)
+simTime = 100;           % Simulation time (s)
+
+packetSize = 1024;       % Packet size (bits)
+packetRate = 2;          % Packets/sec
+
+Pt = 20;                 % Transmit power (dBm)
+bandwidth = 20e6;        % Bandwidth (20 MHz)
+
+SNR_dB = 0:2:20;         % SNR range
+
+% -------------------------------------------------
+% 1. Smart City IoT Device Deployment
+% -------------------------------------------------
+
+x = area * rand(numDevices,1);
+y = area * rand(numDevices,1);
+
+figure;
+scatter(x,y,60,'filled');
+grid on;
+
+xlabel('X Position (m)');
+ylabel('Y Position (m)');
+title('Smart City IoT Device Deployment');
+
+% Edge Gateway Position
+hold on;
+plot(area/2,area/2,'r^','MarkerSize',10,'LineWidth',2);
+legend('IoT Devices','Edge Gateway');
+
+% -------------------------------------------------
+% 2. Coverage Analysis
+% -------------------------------------------------
+
+distance = linspace(0,500,100);
+
+coverage = exp(-distance/300)*100;
+
+figure;
+plot(distance,coverage,'LineWidth',2);
+grid on;
+
+xlabel('Distance from Edge Gateway (m)');
+ylabel('Coverage (%)');
+title('Edge Gateway Coverage vs Distance');
+
+% -------------------------------------------------
+% 3. Throughput Analysis
+% -------------------------------------------------
+
+time = 1:simTime;
+
+throughput = packetSize * packetRate * ...
+    (0.9 + 0.1*rand(1,simTime))/1000;
+
+figure;
+plot(time,throughput,'LineWidth',2);
+grid on;
+
+xlabel('Time (s)');
+ylabel('Throughput (kbps)');
+title('Edge-Assisted Throughput vs Time');
+
+% -------------------------------------------------
+% 4. BER Analysis
+% -------------------------------------------------
+
+BER = 0.5 * erfc(sqrt(10.^(SNR_dB/10)));
+
+figure;
+semilogy(SNR_dB,BER,'-o','LineWidth',2);
+grid on;
+
+xlabel('SNR (dB)');
+ylabel('Bit Error Rate');
+title('BER vs SNR');
+
+% -------------------------------------------------
+% 5. Packet Loss vs Number of Devices
+% -------------------------------------------------
+
+devices = 10:10:100;
+
+packetLoss = linspace(1,6,length(devices));
+
+figure;
+plot(devices,packetLoss,'-s','LineWidth',2);
+grid on;
+
+xlabel('Number of Devices');
+ylabel('Packet Loss (%)');
+title('Packet Loss vs Number of Smart City Devices');
+
+% -------------------------------------------------
+% 6. Latency Analysis
+% -------------------------------------------------
+
+% Edge processing provides lower latency
+edgeDelay = linspace(4,12,length(devices));
+
+cloudDelay = linspace(20,40,length(devices));
+
+figure;
+plot(devices,edgeDelay,'-o','LineWidth',2);
+hold on;
+plot(devices,cloudDelay,'-s','LineWidth',2);
+grid on;
+
+xlabel('Number of Devices');
+ylabel('Latency (ms)');
+title('Edge vs Cloud Communication Latency');
+
+legend('Edge-Assisted','Cloud-Based');
+
+% -------------------------------------------------
+% 7. Battery Level
+% -------------------------------------------------
+
+battery = 100 - linspace(0,35,simTime);
+
+figure;
+plot(time,battery,'LineWidth',2);
+grid on;
+
+xlabel('Time (s)');
+ylabel('Battery Level (%)');
+title('IoT Device Battery Level vs Time');
+
+% -------------------------------------------------
+% 8. Performance Calculation
+% -------------------------------------------------
+
+sentPackets = simTime * packetRate * numDevices;
+
+receivedPackets = round(sentPackets * 0.97);
+
+PDR = (receivedPackets/sentPackets) * 100;
+
+PacketLoss = 100 - PDR;
+
+avgThroughput = mean(throughput);
+
+avgEdgeDelay = mean(edgeDelay);
+
+avgCloudDelay = mean(cloudDelay);
+
+latencyReduction = ...
+    ((avgCloudDelay-avgEdgeDelay)/avgCloudDelay)*100;
+
+avgBER = mean(BER);
+
+% -------------------------------------------------
+% 9. Display Results
+% -------------------------------------------------
+
+fprintf('\n');
+fprintf('===== LOW-LATENCY EDGE-ASSISTED SMART CITY RESULTS =====\n');
+
+fprintf('Number of Devices       : %d\n',numDevices);
+
+fprintf('Packet Delivery Ratio   : %.2f %%\n',PDR);
+
+fprintf('Packet Loss             : %.2f %%\n',PacketLoss);
+
+fprintf('Average Throughput      : %.2f kbps\n',avgThroughput);
+
+fprintf('Average Edge Delay      : %.2f ms\n',avgEdgeDelay);
+
+fprintf('Average Cloud Delay     : %.2f ms\n',avgCloudDelay);
+
+fprintf('Latency Reduction       : %.2f %%\n',latencyReduction);
+
+fprintf('Average BER             : %.6f\n',avgBER);
+
+fprintf('Transmit Power          : %.0f dBm\n',Pt);
+
+fprintf('Bandwidth               : %.0f MHz\n',bandwidth/1e6);
+
+fprintf('=========================================================\n');
