@@ -1,0 +1,105 @@
+clc;
+clear;
+close all;
+
+%% EXPERIMENT 9
+% Massive MIMO Capacity vs SNR and Gain
+
+%% Objective 1 - Channel Capacity
+
+snr = 0:5:30;
+
+snr_linear = 10.^(snr/10);
+
+capacity = log2(1 + snr_linear);
+
+
+%% Objective 2 - SNR Comparison
+
+SNR_compare = [5 10 15 20 25 30];
+
+scenario = {'Low','Fair','Moderate','Good','Very Good','High'};
+
+
+%% Objective 3 - Antenna Gain
+
+antennas = [4 8 16 32 64];
+
+gain = 10*log10(antennas);
+
+
+%% Display Results
+
+disp('======================================');
+disp('     MASSIVE MIMO RESULTS');
+disp('======================================');
+
+disp(' ');
+disp('Objective 1 - Channel Capacity');
+disp('SNR(dB)    Capacity(bps/Hz)');
+disp([snr' capacity']);
+
+disp(' ');
+disp('Objective 2 - SNR Comparison');
+disp('Scenario       SNR(dB)');
+
+for i = 1:length(SNR_compare)
+    fprintf('%-12s %d\n',scenario{i},SNR_compare(i));
+end
+
+disp(' ');
+disp('Objective 3 - Antenna Gain');
+disp('Antennas    Gain(dB)');
+disp([antennas' gain]);
+
+
+%% ======================================
+% OUTPUT GRAPHS
+%% ======================================
+
+figure;
+
+
+%% Objective 1
+
+subplot(3,1,1);
+
+plot(snr,capacity,'-o','LineWidth',2,'MarkerSize',6);
+
+grid on;
+
+xlabel('SNR (dB)');
+ylabel('Channel Capacity (bps/Hz)');
+
+title('Channel Capacity vs SNR');
+
+
+%% Objective 2
+
+subplot(3,1,2);
+
+bar(SNR_compare);
+
+grid on;
+
+xlabel('Communication Scenario');
+ylabel('SNR (dB)');
+
+title('SNR Comparison');
+
+xticks(1:6);
+xticklabels(scenario);
+
+
+%% Objective 3
+
+subplot(3,1,3);
+
+bar(antennas,gain);
+
+grid on;
+
+xlabel('Number of Antenna Elements');
+ylabel('Antenna Gain (dB)');
+
+title('Antenna Gain for Different Antenna Array Sizes');
