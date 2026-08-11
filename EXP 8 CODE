@@ -1,0 +1,116 @@
+clc;
+clear;
+close all;
+
+%% ==========================================
+% EXPERIMENT 8
+% Steering Angle Variation in MIMO Beamforming
+%% ==========================================
+
+%% Common Parameters
+
+angle = [-60 -30 0 30 60];
+
+%% Objective 1
+% Steering Angle
+
+gain1 = ones(size(angle));
+
+%% Objective 2
+% Array Gain
+
+gain2 = [9 12 15 12 9];
+
+%% Objective 3
+% Beam Direction Error
+
+desired_angle = [-60 -30 0 30 60];
+actual_angle  = [-58 -28 1 29 62];
+
+error = abs(desired_angle - actual_angle);
+
+%% Display Results
+
+disp('==============================================');
+disp(' STEERING ANGLE VARIATION IN MIMO BEAMFORMING');
+disp('==============================================');
+
+disp(' ');
+disp('Objective 1 - Steering Angle');
+disp('Angle (Degrees)    Normalized Gain');
+disp([angle' gain1']);
+
+disp(' ');
+disp('Objective 2 - Array Gain');
+disp('Angle (Degrees)    Array Gain (dB)');
+disp([angle' gain2']);
+
+disp(' ');
+disp('Objective 3 - Beam Direction Error');
+disp('Desired Angle    Actual Angle    Error');
+disp([desired_angle' actual_angle' error']);
+
+%% ==========================================
+% ALL OUTPUTS IN ONE FIGURE
+%% ==========================================
+
+figure('Name','Experiment 8 - MIMO Beamforming');
+
+%% Objective 1
+subplot(3,2,1)
+
+polarplot(deg2rad(angle),gain1,'o-','LineWidth',2)
+
+title('Steering Angle Variation')
+
+
+subplot(3,2,2)
+
+plot(angle,gain1,'o-','LineWidth',2)
+
+grid on
+xlabel('Steering Angle (Degrees)')
+ylabel('Normalized Gain')
+title('Steering Angle vs Gain')
+
+
+%% Objective 2
+subplot(3,2,3)
+
+bar(angle,gain2)
+
+grid on
+xlabel('Steering Angle (Degrees)')
+ylabel('Array Gain (dB)')
+title('Array Gain for Different Steering Angles')
+
+
+subplot(3,2,4)
+
+plot(angle,gain2,'o-','LineWidth',2)
+
+grid on
+xlabel('Steering Angle (Degrees)')
+ylabel('Array Gain (dB)')
+title('Array Gain Variation')
+
+
+%% Objective 3
+subplot(3,2,5)
+
+bar(desired_angle,error)
+
+grid on
+xlabel('Desired Steering Angle (Degrees)')
+ylabel('Beam Direction Error (Degrees)')
+title('Beam Direction Error')
+
+
+subplot(3,2,6)
+
+plot(desired_angle,error,'o-','LineWidth',2)
+
+grid on
+xlabel('Desired Steering Angle (Degrees)')
+ylabel('Error (Degrees)')
+title('Beam Steering Accuracy')
