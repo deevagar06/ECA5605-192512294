@@ -1,0 +1,126 @@
+clc;
+clear;
+close all;
+
+%% ==========================================
+% EXPERIMENT 7
+% Analog Beamforming Analysis Using MATLAB
+%% ==========================================
+
+%% Common Parameters
+antennas = [2 4 8 16 32];
+
+%% ==========================================
+% OBJECTIVE 1
+% Beamforming Gain
+%% ==========================================
+
+gain = 10*log10(antennas);
+
+%% ==========================================
+% OBJECTIVE 2
+% Beam Width
+%% ==========================================
+
+beamwidth = [90 45 22.5 11.25 5.625];
+
+%% ==========================================
+% OBJECTIVE 3
+% Main Lobe Direction
+%% ==========================================
+
+theta = [-60 -30 0 30 60];
+
+normalized_gain = [1 1 1 1 1];
+
+%% ==========================================
+% DISPLAY RESULTS
+%% ==========================================
+
+disp('==========================================');
+disp('       ANALOG BEAMFORMING RESULTS');
+disp('==========================================');
+
+disp(' ');
+disp('Objective 1 - Beamforming Gain');
+disp('Antenna Elements    Gain (dB)');
+disp([antennas' gain']);
+
+disp(' ');
+disp('Objective 2 - Beam Width');
+disp('Antenna Elements    Beam Width (Degrees)');
+disp([antennas' beamwidth']);
+
+disp(' ');
+disp('Objective 3 - Main Lobe Direction');
+disp('Steering Angle (Degrees)    Normalized Gain');
+disp([theta' normalized_gain']);
+
+%% ==========================================
+% ALL OUTPUTS IN ONE FIGURE
+%% ==========================================
+
+figure('Name','Experiment 7 - Analog Beamforming');
+
+%% Objective 1
+subplot(3,2,1)
+
+bar(antennas,gain)
+
+grid on
+xlabel('Number of Antenna Elements')
+ylabel('Beamforming Gain (dB)')
+title('Beamforming Gain for Different Antenna Array Sizes')
+
+
+%% Objective 1 - Gain Trend
+subplot(3,2,2)
+
+plot(antennas,gain,'o-','LineWidth',2)
+
+grid on
+xlabel('Number of Antenna Elements')
+ylabel('Beamforming Gain (dB)')
+title('Beamforming Gain Trend')
+
+
+%% Objective 2
+subplot(3,2,3)
+
+plot(antennas,beamwidth,'o-','LineWidth',2)
+
+grid on
+xlabel('Number of Antenna Elements')
+ylabel('Beam Width (Degrees)')
+title('Beam Width for Different Antenna Array Sizes')
+
+
+%% Objective 2 - Beam Width Comparison
+subplot(3,2,4)
+
+bar(antennas,beamwidth)
+
+grid on
+xlabel('Number of Antenna Elements')
+ylabel('Beam Width (Degrees)')
+title('Beam Width Comparison')
+
+
+%% Objective 3
+subplot(3,2,5)
+
+polarplot(deg2rad(theta),normalized_gain,...
+    'o','LineWidth',2)
+
+title('Main Lobe Direction in Analog Beamforming')
+
+
+%% Objective 3 - Steering Angle
+subplot(3,2,6)
+
+plot(theta,normalized_gain,'o-','LineWidth',2)
+
+grid on
+xlabel('Steering Angle (Degrees)')
+ylabel('Normalized Gain')
+title('Main Lobe Steering Angle')
