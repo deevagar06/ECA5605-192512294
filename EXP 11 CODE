@@ -1,0 +1,157 @@
+clc;
+clear;
+close all;
+
+%% ==========================================
+% EXPERIMENT 11
+% IoT-Based Smart Agriculture Using MATLAB
+%% ==========================================
+
+%% Common Parameters
+
+time = 1:10;
+
+soil_moisture = [30 35 28 25 20 18 22 30 40 45];
+
+threshold = 40;
+
+
+%% ==========================================
+% OBJECTIVE 1
+% Soil Moisture Monitoring
+%% ==========================================
+
+moisture_status = soil_moisture >= threshold;
+
+
+%% ==========================================
+% OBJECTIVE 2
+% Water Pump Control
+%% ==========================================
+
+pump_status = soil_moisture < threshold;
+
+
+%% ==========================================
+% OBJECTIVE 3
+% Irrigation Efficiency
+%% ==========================================
+
+% Calculate average soil moisture
+average_moisture = mean(soil_moisture);
+
+% Irrigation efficiency
+efficiency = (average_moisture / threshold) * 100;
+
+% Limit efficiency to 100%
+efficiency = min(efficiency,100);
+
+
+%% ==========================================
+% DISPLAY RESULTS
+%% ==========================================
+
+disp('==========================================');
+disp('     IoT SMART AGRICULTURE RESULTS');
+disp('==========================================');
+
+disp(' ');
+disp('Objective 1 - Soil Moisture Monitoring');
+disp('Time    Soil Moisture (%)    Status');
+
+for i = 1:length(time)
+
+    if moisture_status(i) == 1
+        status = 'Wet';
+    else
+        status = 'Dry';
+    end
+
+    fprintf('%d       %d                  %s\n', ...
+        time(i),soil_moisture(i),status);
+
+end
+
+
+disp(' ');
+disp('Objective 2 - Water Pump Control');
+disp('Time    Soil Moisture (%)    Pump Status');
+
+for i = 1:length(time)
+
+    if pump_status(i) == 1
+        pump = 'ON';
+    else
+        pump = 'OFF';
+    end
+
+    fprintf('%d       %d                  %s\n', ...
+        time(i),soil_moisture(i),pump);
+
+end
+
+
+disp(' ');
+disp('Objective 3 - Irrigation Efficiency');
+
+fprintf('Average Soil Moisture = %.2f %%\n',average_moisture);
+fprintf('Irrigation Efficiency = %.2f %%\n',efficiency);
+
+
+%% ==========================================
+% ALL OBJECTIVES IN ONE FIGURE
+%% ==========================================
+
+figure('Name','Experiment 11 - Smart Agriculture');
+
+
+%% Objective 1
+
+subplot(3,1,1);
+
+plot(time,soil_moisture,'-o','LineWidth',2);
+
+grid on;
+hold on;
+
+yline(threshold,'--','Threshold');
+
+xlabel('Time (Hours)');
+ylabel('Soil Moisture (%)');
+
+title('Soil Moisture Monitoring');
+
+
+%% Objective 2
+
+subplot(3,1,2);
+
+stairs(time,pump_status,'-o','LineWidth',2);
+
+grid on;
+
+xlabel('Time (Hours)');
+ylabel('Pump Status');
+
+title('Water Pump Control');
+
+yticks([0 1]);
+yticklabels({'OFF','ON'});
+
+
+%% Objective 3
+
+subplot(3,1,3);
+
+bar(efficiency);
+
+grid on;
+
+ylabel('Efficiency (%)');
+
+title('Irrigation Efficiency');
+
+ylim([0 100]);
+
+xticks(1);
+xticklabels({'Irrigation Efficiency'});
