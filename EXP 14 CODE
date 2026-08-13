@@ -1,0 +1,182 @@
+clc;
+clear;
+close all;
+
+%% ==========================================
+% EXPERIMENT 14
+% 5G Throughput vs SNR with Modulation Labels
+%% ==========================================
+
+%% Common SNR Values
+
+SNR = 0:5:30;
+
+
+%% ==========================================
+% OBJECTIVE 1
+% 5G Throughput vs SNR
+%% ==========================================
+
+Max_TP = 100;
+
+Throughput = Max_TP*(1-exp(-SNR/10));
+
+
+%% ==========================================
+% OBJECTIVE 2
+% SNR vs BER and Reliability
+%% ==========================================
+
+BER = [0.30 0.18 0.10 0.05 0.02 0.008 0.001];
+
+Reliability = (1-BER)*100;
+
+
+%% ==========================================
+% OBJECTIVE 3
+% Modulation Comparison
+%% ==========================================
+
+Modulation = {'QPSK','16-QAM','64-QAM','256-QAM'};
+
+Mod_SNR = [5 10 18 25];
+
+Efficiency = [2 4 6 8];
+
+
+%% ==========================================
+% DISPLAY ALL RESULTS
+%% ==========================================
+
+disp('==============================================');
+disp('       5G THROUGHPUT AND MODULATION');
+disp('==============================================');
+
+
+%% Objective 1
+
+disp(' ');
+disp('OBJECTIVE 1 - 5G THROUGHPUT');
+
+disp('SNR(dB)    Throughput(Mbps)');
+
+disp([SNR' Throughput']);
+
+
+%% Objective 2
+
+disp(' ');
+disp('OBJECTIVE 2 - SNR, BER AND RELIABILITY');
+
+disp('SNR(dB)    BER       Reliability(%)');
+
+disp([SNR' BER' Reliability']);
+
+
+%% Objective 3
+
+disp(' ');
+disp('OBJECTIVE 3 - MODULATION COMPARISON');
+
+disp('Modulation     Required SNR(dB)     Efficiency');
+
+for i = 1:length(Modulation)
+
+    fprintf('%-12s     %8.0f             %8.0f\n', ...
+        Modulation{i},Mod_SNR(i),Efficiency(i));
+
+end
+
+
+%% ==========================================
+% ALL OBJECTIVES IN ONE FIGURE
+%% ==========================================
+
+figure('Name','Experiment 14 - 5G Performance');
+
+
+%% Objective 1
+
+subplot(3,2,1);
+
+plot(SNR,Throughput,'-o','LineWidth',2);
+
+grid on;
+
+title('5G Throughput vs SNR');
+
+xlabel('Signal-to-Noise Ratio (dB)');
+ylabel('Throughput (Mbps)');
+
+
+%% Objective 1 - Bar Graph
+
+subplot(3,2,2);
+
+bar(Throughput);
+
+grid on;
+
+title('Throughput at Different SNR Levels');
+
+xlabel('SNR Index');
+ylabel('Throughput (Mbps)');
+
+
+%% Objective 2 - BER
+
+subplot(3,2,3);
+
+semilogy(SNR,BER,'-o','LineWidth',2);
+
+grid on;
+
+title('SNR vs Bit Error Rate');
+
+xlabel('Signal-to-Noise Ratio (dB)');
+ylabel('Bit Error Rate (BER)');
+
+
+%% Objective 2 - Reliability
+
+subplot(3,2,4);
+
+plot(SNR,Reliability,'-s','LineWidth',2);
+
+grid on;
+
+title('SNR vs Communication Reliability');
+
+xlabel('Signal-to-Noise Ratio (dB)');
+ylabel('Reliability (%)');
+
+
+%% Objective 3 - Required SNR
+
+subplot(3,2,5);
+
+plot(1:4,Mod_SNR,'-s','LineWidth',2);
+
+grid on;
+
+xticks(1:4);
+xticklabels(Modulation);
+
+title('Required SNR for Modulation Schemes');
+
+xlabel('Modulation Scheme');
+ylabel('Required SNR (dB)');
+
+
+%% Objective 3 - Spectral Efficiency
+
+subplot(3,2,6);
+
+plot(Mod_SNR,Efficiency,'-o','LineWidth',2);
+
+grid on;
+
+title('SNR vs Spectral Efficiency');
+
+xlabel('SNR (dB)');
+ylabel('Spectral Efficiency (bits/s/Hz)');
