@@ -1,0 +1,178 @@
+clc;
+clear;
+close all;
+
+%% ==========================================
+% EXPERIMENT 15
+% AI-Based Traffic Prediction for 5G Networks
+%% ==========================================
+
+%% Common Time Intervals
+
+t = 1:10;
+
+
+%% ==========================================
+% OBJECTIVE 1
+% Prediction Accuracy and Traffic
+%% ==========================================
+
+Accuracy = [90 91 92 93 94 95 96 97 98 99];
+
+Traffic = [45 50 55 60 65 70 75 80 85 90];
+
+
+%% ==========================================
+% OBJECTIVE 2
+% Mean Squared Error (MSE)
+%% ==========================================
+
+Actual = [50 55 60 62 68 70 75 80 85 90];
+
+Predicted = [49 54 61 63 67 71 74 81 84 89];
+
+SqError = (Actual - Predicted).^2;
+
+MSE = mean(SqError);
+
+
+%% ==========================================
+% OBJECTIVE 3
+% Network Throughput and Utilization
+%% ==========================================
+
+Throughput = [120 135 150 165 180 195 210 225 240 255];
+
+Utilization = [60 65 70 74 78 82 86 90 94 98];
+
+
+%% ==========================================
+% DISPLAY RESULTS
+%% ==========================================
+
+disp('==============================================');
+disp('    AI-BASED TRAFFIC PREDICTION FOR 5G');
+disp('==============================================');
+
+
+%% Objective 1 Output
+
+disp(' ');
+disp('OBJECTIVE 1 - PREDICTION ACCURACY');
+
+disp('Time    Accuracy(%)    Traffic(Mbps)');
+
+disp([t' Accuracy' Traffic']);
+
+
+%% Objective 2 Output
+
+disp(' ');
+disp('OBJECTIVE 2 - MEAN SQUARED ERROR');
+
+disp('Time    Actual    Predicted    Squared Error');
+
+disp([t' Actual' Predicted' SqError']);
+
+fprintf('\nMean Squared Error (MSE) = %.4f\n',MSE);
+
+
+%% Objective 3 Output
+
+disp(' ');
+disp('OBJECTIVE 3 - NETWORK THROUGHPUT');
+
+disp('Time    Throughput(Mbps)    Utilization(%)');
+
+disp([t' Throughput' Utilization']);
+
+
+%% ==========================================
+% ALL OBJECTIVES IN ONE FIGURE
+%% ==========================================
+
+figure('Name','Experiment 15 - AI Traffic Prediction');
+
+
+%% Objective 1 - Prediction Accuracy
+
+subplot(3,2,1);
+
+plot(t,Accuracy,'-o','LineWidth',2);
+
+grid on;
+
+title('AI Prediction Accuracy over Time');
+
+xlabel('Time Interval');
+ylabel('Prediction Accuracy (%)');
+
+
+%% Objective 1 - Traffic
+
+subplot(3,2,2);
+
+bar(Traffic);
+
+grid on;
+
+title('Network Traffic Samples');
+
+xlabel('Traffic Sample');
+ylabel('Traffic (Mbps)');
+
+
+%% Objective 2 - Squared Error
+
+subplot(3,2,3);
+
+plot(t,SqError,'-o','LineWidth',2);
+
+grid on;
+
+title('Squared Error of AI Traffic Prediction');
+
+xlabel('Time Interval');
+ylabel('Squared Error');
+
+
+%% Objective 2 - MSE
+
+subplot(3,2,4);
+
+bar(MSE);
+
+grid on;
+
+title('Mean Squared Error (MSE)');
+
+xlabel('AI Prediction Model');
+ylabel('MSE');
+
+
+%% Objective 3 - Throughput
+
+subplot(3,2,5);
+
+plot(t,Throughput,'-o','LineWidth',2);
+
+grid on;
+
+title('AI-Based Network Throughput');
+
+xlabel('Time Interval');
+ylabel('Throughput (Mbps)');
+
+
+%% Objective 3 - Utilization
+
+subplot(3,2,6);
+
+plot(Throughput,Utilization,'-s','LineWidth',2);
+
+grid on;
+
+title('Throughput vs Network Utilization');
+
+xlabel('Network Throughput (Mbps)');
+ylabel('Network Utilization (%)');
