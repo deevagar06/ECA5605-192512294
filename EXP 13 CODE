@@ -1,0 +1,125 @@
+clc;
+clear;
+close all;
+
+%% ==========================================
+% EXPERIMENT 13
+% V2X Latency Comparison
+%% ==========================================
+
+%% Common Vehicle Speed
+
+speed = 20:20:120;
+
+
+%% ==========================================
+% OBJECTIVE 1
+% End-to-End Latency
+%% ==========================================
+
+latency = [18 16 14 12 10 9];
+
+
+%% ==========================================
+% OBJECTIVE 2
+% Packet Delivery Ratio
+%% ==========================================
+
+PDR = [99 98 97 95 93 90];
+
+
+%% ==========================================
+% OBJECTIVE 3
+% Vehicle Speed and Communication Range
+%% ==========================================
+
+vehicle = 1:6;
+
+speed_vehicle = [30 45 60 75 90 105];
+
+range = [280 260 240 220 200 180];
+
+
+%% ==========================================
+% DISPLAY RESULTS
+%% ==========================================
+
+disp('==============================================');
+disp('           V2X PERFORMANCE RESULTS');
+disp('==============================================');
+
+
+%% Objective 1
+
+disp(' ');
+disp('Objective 1 - End-to-End Latency');
+disp('Speed(km/h)    Latency(ms)');
+
+disp([speed' latency']);
+
+
+%% Objective 2
+
+disp(' ');
+disp('Objective 2 - Packet Delivery Ratio');
+disp('Speed(km/h)    PDR(%)');
+
+disp([speed' PDR']);
+
+
+%% Objective 3
+
+disp(' ');
+disp('Objective 3 - Vehicle Speed and Range');
+disp('Vehicle    Speed(km/h)    Range(m)');
+
+disp([vehicle' speed_vehicle' range']);
+
+
+%% ==========================================
+% ALL OBJECTIVES IN ONE FIGURE
+%% ==========================================
+
+figure('Name','Experiment 13 - V2X Latency Comparison');
+
+
+%% Objective 1 - Latency
+
+subplot(3,1,1);
+
+plot(speed,latency,'-o','LineWidth',2);
+
+grid on;
+
+title('Vehicle Speed vs End-to-End Latency');
+
+xlabel('Vehicle Speed (km/h)');
+ylabel('Latency (ms)');
+
+
+%% Objective 2 - PDR
+
+subplot(3,1,2);
+
+plot(speed,PDR,'-o','LineWidth',2);
+
+grid on;
+
+title('Vehicle Speed vs Packet Delivery Ratio');
+
+xlabel('Vehicle Speed (km/h)');
+ylabel('Packet Delivery Ratio (%)');
+
+
+%% Objective 3 - Communication Range
+
+subplot(3,1,3);
+
+plot(speed_vehicle,range,'-s','LineWidth',2);
+
+grid on;
+
+title('Vehicle Speed vs Communication Range');
+
+xlabel('Vehicle Speed (km/h)');
+ylabel('Communication Range (m)');
