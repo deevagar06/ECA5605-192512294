@@ -1,0 +1,136 @@
+clc;
+clear;
+close all;
+
+%% ==========================================
+% EXPERIMENT 12
+% NB-IoT vs LTE-M Throughput Simulation
+%% ==========================================
+
+%% Common SNR Values
+
+SNR = 0:5:30;
+
+
+%% ==========================================
+% OBJECTIVE 1
+% Throughput Comparison
+%% ==========================================
+
+NB_Throughput = 0.05*(1-exp(-SNR/8));
+LTE_Throughput = 1.2*(1-exp(-SNR/8));
+
+
+%% ==========================================
+% OBJECTIVE 2
+% Latency Comparison
+%% ==========================================
+
+NB_Latency = [180 160 145 130 120 110 100];
+LTE_Latency = [90 80 70 60 50 45 40];
+
+
+%% ==========================================
+% OBJECTIVE 3
+% Packet Delivery Ratio Comparison
+%% ==========================================
+
+NB_PDR = [82 86 89 92 95 97 99];
+LTE_PDR = [88 91 94 96 98 99 100];
+
+
+%% ==========================================
+% DISPLAY RESULTS
+%% ==========================================
+
+disp('==============================================');
+disp('       NB-IoT vs LTE-M PERFORMANCE');
+disp('==============================================');
+
+
+%% Objective 1 Output
+
+disp(' ');
+disp('Objective 1 - Throughput');
+disp('SNR(dB)   NB-IoT(Mbps)   LTE-M(Mbps)');
+
+disp([SNR' NB_Throughput' LTE_Throughput']);
+
+
+%% Objective 2 Output
+
+disp(' ');
+disp('Objective 2 - Latency');
+disp('SNR(dB)   NB-IoT(ms)   LTE-M(ms)');
+
+disp([SNR' NB_Latency' LTE_Latency']);
+
+
+%% Objective 3 Output
+
+disp(' ');
+disp('Objective 3 - Packet Delivery Ratio');
+disp('SNR(dB)   NB-IoT(%)   LTE-M(%)');
+
+disp([SNR' NB_PDR' LTE_PDR']);
+
+
+%% ==========================================
+% ALL OBJECTIVES IN ONE FIGURE
+%% ==========================================
+
+figure('Name','Experiment 12 - NB-IoT vs LTE-M');
+
+
+%% Objective 1 - Throughput
+
+subplot(3,1,1);
+
+plot(SNR,NB_Throughput,'-o','LineWidth',2);
+hold on;
+
+plot(SNR,LTE_Throughput,'-s','LineWidth',2);
+
+grid on;
+
+title('NB-IoT vs LTE-M Throughput');
+xlabel('Signal-to-Noise Ratio (dB)');
+ylabel('Throughput (Mbps)');
+
+legend('NB-IoT','LTE-M');
+
+
+%% Objective 2 - Latency
+
+subplot(3,1,2);
+
+plot(SNR,NB_Latency,'-o','LineWidth',2);
+hold on;
+
+plot(SNR,LTE_Latency,'-s','LineWidth',2);
+
+grid on;
+
+title('NB-IoT vs LTE-M Latency');
+xlabel('Signal-to-Noise Ratio (dB)');
+ylabel('Latency (ms)');
+
+legend('NB-IoT','LTE-M');
+
+
+%% Objective 3 - Packet Delivery Ratio
+
+subplot(3,1,3);
+
+plot(SNR,NB_PDR,'-o','LineWidth',2);
+hold on;
+
+plot(SNR,LTE_PDR,'-s','LineWidth',2);
+
+grid on;
+
+title('NB-IoT vs LTE-M Packet Delivery Ratio');
+xlabel('Signal-to-Noise Ratio (dB)');
+ylabel('Packet Delivery Ratio (%)');
+
+legend('NB-IoT','LTE-M');
